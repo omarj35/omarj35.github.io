@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Pedido</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-image: url("tam.png");
+            background-size: 100% auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #8B4513;
+        }
+
+        form {
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #8B4513;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .number-input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .number-input-container input[type="number"] {
+            width: 60px;
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        #total {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #8B0000;
+        }
+
+        .cuenta-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .cuenta-list-item {
+            margin-bottom: 5px;
+        }
+    </style>
+
+    <script>
+        function calcularTotal() {
+            var precios = {
+                tamales: 16,
+                torta: 20,
+                bolillo: 4,
+                atole_chico: 12,
+                atole_mediano: 18,
+                litro_atole: 35
+            };
+
+            var total = 0;
+            var cuentas = {};
+
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                var producto = checkbox.value;
+
+                if (checkbox.checked) {
+                    var cantidadInput = document.getElementById(producto + '_cantidad');
+                    var cantidad = parseInt(cantidadInput.value);
+
+                    if (cantidad > 0) {
+                        var cuenta = precios[producto] * cantidad;
+                        total += cuenta;
+                        cuentas[producto] = cuenta;
+                    }
+                }
+            }
+
+            var totalElement = document.getElementById('total');
+            totalElement.innerHTML = 'Total a pagar: $' + total;
+
+            var cuentaList = document.getElementById('cuenta-list');
+            cuentaList.innerHTML = '';
+
+            for (var producto in cuentas) {
+                var cuentaItem = document.createElement('li');
+                cuentaItem.className = 'cuenta-list-item';
+                cuentaItem.innerHTML = producto + ': $' + cuentas[producto];
+                cuentaList.appendChild(cuentaItem);
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>TAMALES ORIS</h1>
+	<font size="+2">
+<table align="center" width="80%">
+    <tbody>
+    <th>
+        <td bgcolor="#C88889">
+            <form>
+                <label>
+                    <input type="checkbox" name="producto" value="tamales" checked onchange="calcularTotal()">
+                    TAMALES $16 cada uno<br>
+                    <div class="number-input-container">
+                        Cantidad: <input type="number" id="tamales_cantidad" min="0" value="0" onchange="calcularTotal()">
+                       
+                    </div>
+                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="producto" value="torta" checked onchange="calcularTotal()">
+                    TORTA $20 cada uno
+                    <div class="number-input-container">
+                        Cantidad: <input type="number" id="torta_cantidad" min="0" value="0" onchange="calcularTotal()">
+                        
+                    </div>
+                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="producto" value="bolillo" checked onchange="calcularTotal()">
+                    BOLILLO $4 cada uno<br>
+                    <div class="number-input-container">
+                        Cantidad: <input type="number" id="bolillo_cantidad" min="0" value="0" onchange="calcularTotal()">
+                       
+                    </div>
+                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="producto" value="atole_chico" checked onchange="calcularTotal()">
+                    ATOLE CHICO $12 cada uno<br>
+                    <div class="number-input-container">
+                        Cantidad: <input type="number" id="atole_chico_cantidad" min="0" value="0" onchange="calcularTotal()">
+                        
+                    </div>
+                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="producto" value="atole_mediano" checked onchange="calcularTotal()">
+                    ATOLE MEDIANO $18 cada uno<br>
+                    <div class="number-input-container">
+                        Cantidad: <input type="number" id="atole_mediano_cantidad" min="0" value="0" onchange="calcularTotal()">
+                       
+                    </div>
+                </label>
+                <br>            <label>
+                            <input type="checkbox" name="producto" value="litro_atole" checked onchange="calcularTotal()">
+                            LITRO DE ATOLE - $35 cada uno<br>
+                            <div class="number-input-container">
+                                Cantidad: <input type="number" id="litro_atole_cantidad" min="0" value="0" onchange="calcularTotal()">
+                         
+                            </div>
+                        </label>
+                        <br>
+                        <p id="total">Total a pagar: $0</p>
+                        <ul id="cuenta-list" class="cuenta-list"></ul>
+                    </form>
+                </td>
+            </th>
+        </tbody>
+    </table>
+	</font>
+</body>
+</html>
